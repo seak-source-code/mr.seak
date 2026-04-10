@@ -18,18 +18,17 @@
 
 body {
   margin:0;
-  font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:-apple-system, sans-serif;
   background:var(--bg);
   color:var(--text);
 }
 
-/* LAYOUT */
 .layout { display:flex; }
 
 /* SIDEBAR */
 .sidebar {
-  width:250px;
-  padding:30px 20px;
+  width:240px;
+  padding:40px 20px;
   border-right:1px solid #30363d;
   height:100vh;
   position:sticky;
@@ -39,14 +38,13 @@ body {
 .brand {
   font-size:18px;
   font-weight:600;
-  margin-bottom:20px;
+  margin-bottom:30px;
 }
 
 .nav-item {
-  margin:10px 0;
-  cursor:pointer;
+  margin:12px 0;
   color:var(--muted);
-  font-size:14px;
+  cursor:pointer;
 }
 
 .nav-item:hover { color:var(--accent); }
@@ -54,29 +52,63 @@ body {
 /* MAIN */
 .main {
   flex:1;
-  max-width:900px;
-  padding:60px 40px;
+  max-width:880px;
+  padding:80px 60px;
 }
 
 /* HERO */
-.hero h1 { font-size:40px; margin-bottom:5px; }
-.hero p { color:var(--muted); line-height:1.6; }
+.hero h1 {
+  font-size:42px;
+  background:linear-gradient(90deg,#58a6ff,#2ea043);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.hero p {
+  color:var(--muted);
+  line-height:1.8;
+}
+
+/* METRICS */
+.metrics {
+  margin-top:20px;
+  display:flex;
+  flex-wrap:wrap;
+}
+
+.metrics span {
+  margin:5px;
+  padding:6px 12px;
+  background:#161b22;
+  border-radius:999px;
+  font-size:12px;
+  border:1px solid #30363d;
+}
 
 /* SECTION */
 .section {
-  margin-top:70px;
+  margin-top:80px;
+}
+
+.section-title {
   font-size:12px;
   text-transform:uppercase;
   color:var(--muted);
-  letter-spacing:1px;
+  margin-bottom:15px;
+}
+
+/* GRID */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
 }
 
 /* CARD */
 .card {
   background:var(--card);
-  padding:22px;
-  border-radius:14px;
-  margin-top:15px;
+  padding:24px;
+  border-radius:12px;
   border:1px solid #30363d;
   cursor:pointer;
   transition:0.2s;
@@ -84,41 +116,25 @@ body {
 
 .card:hover {
   border-color:var(--accent);
-  transform:translateY(-3px);
+  transform:translateY(-4px);
 }
 
-/* PINNED */
-.pinned {
-  border:1px solid var(--accent);
-  background:linear-gradient(180deg, rgba(88,166,255,0.08), transparent);
-}
-
-/* TIMELINE */
-.timeline {
-  border-left:2px solid #30363d;
-  padding-left:20px;
-}
-
-.timeline-item {
-  margin-bottom:25px;
-}
-
-.timeline-item strong {
-  display:block;
+.card p {
+  font-size:14px;
+  color:var(--muted);
 }
 
 /* VIEW */
 #viewer {
-  margin-top:40px;
+  margin-top:50px;
 }
 
 /* CODE */
 pre {
   background:#000;
   padding:14px;
-  border-radius:10px;
+  border-radius:8px;
   position:relative;
-  overflow:auto;
 }
 
 .copy-btn {
@@ -127,16 +143,13 @@ pre {
   right:8px;
   background:var(--accent);
   border:none;
-  font-size:11px;
   padding:4px 8px;
+  font-size:11px;
   cursor:pointer;
   border-radius:6px;
 }
 
-/* SMOOTH */
-html {
-  scroll-behavior:smooth;
-}
+html { scroll-behavior:smooth; }
 </style>
 </head>
 
@@ -149,51 +162,48 @@ html {
     <div class="brand">Kimseak</div>
 
     <div class="nav-item" onclick="go('about')">About</div>
-    <div class="nav-item" onclick="go('experience')">Experience</div>
     <div class="nav-item" onclick="go('insights')">Insights</div>
     <div class="nav-item" onclick="go('knowledge')">Knowledge</div>
+    <div class="nav-item" onclick="go('code')">Code</div>
   </div>
 
   <!-- MAIN -->
   <div class="main">
 
-    <!-- ABOUT -->
+    <!-- PROFILE -->
     <div id="about" class="hero">
       <h1>Kimseak Phorn</h1>
-      <p>Senior Software Engineer • Mobile • 7+ Years</p>
+      <p>Senior Software Engineer • Mobile (iOS & Android) • 7+ Years</p>
       <p>
-        I design and build scalable mobile systems used in production.
-        My focus is architecture, security, and engineering leadership.
+        I build scalable mobile systems, lead engineering teams,
+        and solve real-world production challenges in architecture,
+        performance, and security.
       </p>
-    </div>
 
-    <!-- EXPERIENCE -->
-    <div id="experience">
-      <div class="section">Experience</div>
-
-      <div class="timeline">
-        <div class="timeline-item">
-          <strong>Senior Software Engineer / Team Lead</strong>
-          <p>Leading mobile architecture, mentoring engineers, managing delivery</p>
-        </div>
-
-        <div class="timeline-item">
-          <strong>Mobile Developer</strong>
-          <p>Built production apps, improved performance and UX</p>
-        </div>
+      <div class="metrics">
+        <span>7+ Years Experience</span>
+        <span>10+ Production Apps</span>
+        <span>Architecture & Security</span>
+        <span>Team Leadership</span>
       </div>
     </div>
 
     <!-- INSIGHTS -->
-    <div id="insights">
-      <div class="section">Insights</div>
-      <div id="insightList"></div>
+    <div id="insights" class="section">
+      <div class="section-title">Insights</div>
+      <div id="insightGrid" class="grid"></div>
     </div>
 
     <!-- KNOWLEDGE -->
-    <div id="knowledge">
-      <div class="section">Knowledge</div>
-      <div id="knowledgeList"></div>
+    <div id="knowledge" class="section">
+      <div class="section-title">Knowledge</div>
+      <div id="knowledgeGrid" class="grid"></div>
+    </div>
+
+    <!-- CODE -->
+    <div id="code" class="section">
+      <div class="section-title">Code Snippets</div>
+      <div id="codeGrid" class="grid"></div>
     </div>
 
     <!-- VIEW -->
@@ -204,84 +214,82 @@ html {
 </div>
 
 <script>
+
+/* INSIGHTS */
 const insights = [
 {
-  title:"Mobile Security Is About Risk, Not Perfection",
-  content:`# Security Reality\nClient apps are always exposed.\nFocus on risk reduction.`
+title:"Mobile Security is About Risk",
+desc:"No app is fully secure",
+content:"# Security\nFocus on reducing risk, not perfection."
 },
 {
-  title:"Architecture Decisions Matter More Than Code",
-  content:`# Architecture > Code\nClean code helps, but structure defines scalability.`
+title:"Architecture > Code",
+desc:"Structure defines scalability",
+content:"# Architecture\nGood structure scales better than code quality."
 }
 ];
 
+/* KNOWLEDGE */
 const knowledge = [
 {
-  title:"Offline-first Architecture",
-  content:`# Offline-first\n\n\`\`\`\nlocal → sync → server\n\`\`\``
+title:"Offline-first Architecture",
+desc:"Design apps without internet",
+content:"# Offline-first\nlocal → sync → server"
 },
 {
-  title:"Secure Key Storage",
-  content:`# Secure Storage\n\n\`\`\`swift\nlet key = Keychain.load("secure")\n\`\`\``
-},
-{
-  title:"Performance Optimization",
-  content:`# Performance\nReduce API calls & optimize UI rendering.`
-},
-{
-  title:"API Failure Handling",
-  content:`# API Failure\nAlways have fallback strategy.`
-},
-{
-  title:"CI/CD Mobile",
-  content:`# CI/CD\nAutomate build & deployment.`
+title:"API Failure Handling",
+desc:"Resilient systems",
+content:"# API Failure\nFallback to cache"
 }
 ];
 
-const insightList = document.getElementById("insightList");
-const knowledgeList = document.getElementById("knowledgeList");
+/* CODE */
+const snippets = [
+{
+title:"Keychain Example",
+desc:"Secure storage",
+code:`let key = Keychain.load("secure")`
+},
+{
+title:"Retry Logic",
+desc:"API retry",
+code:`retry(3){ callAPI() }`
+}
+];
+
+/* ELEMENTS */
+const insightGrid = document.getElementById("insightGrid");
+const knowledgeGrid = document.getElementById("knowledgeGrid");
+const codeGrid = document.getElementById("codeGrid");
 const viewer = document.getElementById("viewer");
 
 /* RENDER */
 function render(){
   insights.forEach(p=>{
-    insightList.innerHTML += `
-      <div class="card pinned" onclick="open(p)">
-        <h3>${p.title}</h3>
-      </div>
-    `;
+    insightGrid.innerHTML += `<div class="card" onclick="openPost(p)"><h3>${p.title}</h3><p>${p.desc}</p></div>`;
   });
 
   knowledge.forEach(p=>{
-    knowledgeList.innerHTML += `
-      <div class="card" onclick="open(p)">
-        <h3>${p.title}</h3>
-      </div>
-    `;
+    knowledgeGrid.innerHTML += `<div class="card" onclick="openPost(p)"><h3>${p.title}</h3><p>${p.desc}</p></div>`;
+  });
+
+  snippets.forEach(s=>{
+    codeGrid.innerHTML += `<div class="card" onclick="openCode(s)"><h3>${s.title}</h3><p>${s.desc}</p></div>`;
   });
 }
 
 /* OPEN */
-function open(post){
-  viewer.innerHTML = `
-    <h2>${post.title}</h2>
-    ${marked.parse(post.content)}
-  `;
-  addCopy();
+function openPost(post){
+  viewer.innerHTML = `<h2>${post.title}</h2>${marked.parse(post.content)}`;
 }
 
-/* COPY */
-function addCopy(){
+function openCode(s){
+  viewer.innerHTML = `<h2>${s.title}</h2><pre>${s.code}</pre>`;
   document.querySelectorAll("pre").forEach(block=>{
-    const btn = document.createElement("button");
+    const btn=document.createElement("button");
     btn.innerText="Copy";
     btn.className="copy-btn";
-
-    btn.onclick=()=>{
-      navigator.clipboard.writeText(block.innerText);
-      btn.innerText="Copied!";
-    };
-
+    btn.onclick=()=>navigator.clipboard.writeText(block.innerText);
     block.appendChild(btn);
   });
 }
@@ -292,6 +300,7 @@ function go(id){
 }
 
 render();
+
 </script>
 
 </body>
