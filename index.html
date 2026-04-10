@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kimseak Phorn | Engineering</title>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<style>
+:root {
+  --bg:#0d1117;
+  --card:#161b22;
+  --text:#e6edf3;
+  --muted:#8b949e;
+  --accent:#58a6ff;
+}
+
+body {
+  margin:0;
+  font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* LAYOUT */
+.layout { display:flex; }
+
+/* SIDEBAR */
+.sidebar {
+  width:250px;
+  padding:30px 20px;
+  border-right:1px solid #30363d;
+  height:100vh;
+  position:sticky;
+  top:0;
+}
+
+.brand {
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:20px;
+}
+
+.nav-item {
+  margin:10px 0;
+  cursor:pointer;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.nav-item:hover { color:var(--accent); }
+
+/* MAIN */
+.main {
+  flex:1;
+  max-width:900px;
+  padding:60px 40px;
+}
+
+/* HERO */
+.hero h1 { font-size:40px; margin-bottom:5px; }
+.hero p { color:var(--muted); line-height:1.6; }
+
+/* SECTION */
+.section {
+  margin-top:70px;
+  font-size:12px;
+  text-transform:uppercase;
+  color:var(--muted);
+  letter-spacing:1px;
+}
+
+/* CARD */
+.card {
+  background:var(--card);
+  padding:22px;
+  border-radius:14px;
+  margin-top:15px;
+  border:1px solid #30363d;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.card:hover {
+  border-color:var(--accent);
+  transform:translateY(-3px);
+}
+
+/* PINNED */
+.pinned {
+  border:1px solid var(--accent);
+  background:linear-gradient(180deg, rgba(88,166,255,0.08), transparent);
+}
+
+/* TIMELINE */
+.timeline {
+  border-left:2px solid #30363d;
+  padding-left:20px;
+}
+
+.timeline-item {
+  margin-bottom:25px;
+}
+
+.timeline-item strong {
+  display:block;
+}
+
+/* VIEW */
+#viewer {
+  margin-top:40px;
+}
+
+/* CODE */
+pre {
+  background:#000;
+  padding:14px;
+  border-radius:10px;
+  position:relative;
+  overflow:auto;
+}
+
+.copy-btn {
+  position:absolute;
+  top:8px;
+  right:8px;
+  background:var(--accent);
+  border:none;
+  font-size:11px;
+  padding:4px 8px;
+  cursor:pointer;
+  border-radius:6px;
+}
+
+/* SMOOTH */
+html {
+  scroll-behavior:smooth;
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="brand">Kimseak</div>
+
+    <div class="nav-item" onclick="go('about')">About</div>
+    <div class="nav-item" onclick="go('experience')">Experience</div>
+    <div class="nav-item" onclick="go('insights')">Insights</div>
+    <div class="nav-item" onclick="go('knowledge')">Knowledge</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- ABOUT -->
+    <div id="about" class="hero">
+      <h1>Kimseak Phorn</h1>
+      <p>Senior Software Engineer • Mobile • 7+ Years</p>
+      <p>
+        I design and build scalable mobile systems used in production.
+        My focus is architecture, security, and engineering leadership.
+      </p>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div id="experience">
+      <div class="section">Experience</div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <strong>Senior Software Engineer / Team Lead</strong>
+          <p>Leading mobile architecture, mentoring engineers, managing delivery</p>
+        </div>
+
+        <div class="timeline-item">
+          <strong>Mobile Developer</strong>
+          <p>Built production apps, improved performance and UX</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSIGHTS -->
+    <div id="insights">
+      <div class="section">Insights</div>
+      <div id="insightList"></div>
+    </div>
+
+    <!-- KNOWLEDGE -->
+    <div id="knowledge">
+      <div class="section">Knowledge</div>
+      <div id="knowledgeList"></div>
+    </div>
+
+    <!-- VIEW -->
+    <div id="viewer"></div>
+
+  </div>
+
+</div>
+
+<script>
+const insights = [
+{
+  title:"Mobile Security Is About Risk, Not Perfection",
+  content:`# Security Reality\nClient apps are always exposed.\nFocus on risk reduction.`
+},
+{
+  title:"Architecture Decisions Matter More Than Code",
+  content:`# Architecture > Code\nClean code helps, but structure defines scalability.`
+}
+];
+
+const knowledge = [
+{
+  title:"Offline-first Architecture",
+  content:`# Offline-first\n\n\`\`\`\nlocal → sync → server\n\`\`\``
+},
+{
+  title:"Secure Key Storage",
+  content:`# Secure Storage\n\n\`\`\`swift\nlet key = Keychain.load("secure")\n\`\`\``
+},
+{
+  title:"Performance Optimization",
+  content:`# Performance\nReduce API calls & optimize UI rendering.`
+},
+{
+  title:"API Failure Handling",
+  content:`# API Failure\nAlways have fallback strategy.`
+},
+{
+  title:"CI/CD Mobile",
+  content:`# CI/CD\nAutomate build & deployment.`
+}
+];
+
+const insightList = document.getElementById("insightList");
+const knowledgeList = document.getElementById("knowledgeList");
+const viewer = document.getElementById("viewer");
+
+/* RENDER */
+function render(){
+  insights.forEach(p=>{
+    insightList.innerHTML += `
+      <div class="card pinned" onclick="open(p)">
+        <h3>${p.title}</h3>
+      </div>
+    `;
+  });
+
+  knowledge.forEach(p=>{
+    knowledgeList.innerHTML += `
+      <div class="card" onclick="open(p)">
+        <h3>${p.title}</h3>
+      </div>
+    `;
+  });
+}
+
+/* OPEN */
+function open(post){
+  viewer.innerHTML = `
+    <h2>${post.title}</h2>
+    ${marked.parse(post.content)}
+  `;
+  addCopy();
+}
+
+/* COPY */
+function addCopy(){
+  document.querySelectorAll("pre").forEach(block=>{
+    const btn = document.createElement("button");
+    btn.innerText="Copy";
+    btn.className="copy-btn";
+
+    btn.onclick=()=>{
+      navigator.clipboard.writeText(block.innerText);
+      btn.innerText="Copied!";
+    };
+
+    block.appendChild(btn);
+  });
+}
+
+/* NAV */
+function go(id){
+  document.getElementById(id).scrollIntoView();
+}
+
+render();
+</script>
+
+</body>
+</html>
