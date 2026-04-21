@@ -3,115 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kimseak — Mobile Systems Engineer</title>
+<title>Kimseak — AI Engineering System</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <style>
 :root {
-  --bg:#070b10;
-  --card:rgba(255,255,255,0.05);
-  --border:rgba(255,255,255,0.1);
+  --bg:#04070c;
   --text:#e6edf3;
   --muted:#8b949e;
-  --accent:#58a6ff;
 }
 
+/* 🌌 BASE */
 body {
   margin:0;
-  font-family:-apple-system, sans-serif;
+  font-family:"Space Grotesk", sans-serif;
   background:var(--bg);
   color:var(--text);
   overflow-x:hidden;
 }
 
-/* 🌌 Ambient Background */
+/* 🌈 RAINBOW AI BACKGROUND */
+body::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(0,255,255,0.15), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,0,255,0.15), transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(0,255,128,0.1), transparent 50%);
+  z-index:-3;
+}
+
+/* ✨ STAR */
 canvas {
   position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  inset:0;
   z-index:-2;
 }
 
-/* ✨ Cursor Glow */
-.cursor-glow {
+/* GRID */
+body::after {
+  content:"";
   position:fixed;
-  width:300px;
-  height:300px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(88,166,255,0.15), transparent 60%);
-  pointer-events:none;
-  transform:translate(-50%,-50%);
+  inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size:70px 70px;
   z-index:-1;
 }
 
-/* Header */
+/* HEADER */
 .header {
-  padding:20px;
-  border-bottom:1px solid var(--border);
-  backdrop-filter:blur(10px);
+  padding:20px 30px;
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
-/* Hero */
+/* HERO */
 .hero {
-  padding:40px 20px;
+  padding:80px 8vw;
 }
 .hero h1 {
-  font-size:34px;
-  background:linear-gradient(90deg,#58a6ff,#2ea043,#a371f7);
+  font-size:48px;
+  background:linear-gradient(90deg,#00f0ff,#ff00ff,#00ff88);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 .hero p {
-  color:var(--muted);
   max-width:700px;
+  color:var(--muted);
 }
 
-/* Section */
+/* SECTION */
 .section {
-  padding:40px 20px;
+  padding:60px 8vw;
 }
 .section h2 {
   font-size:12px;
-  color:var(--muted);
   text-transform:uppercase;
+  color:var(--muted);
   margin-bottom:20px;
 }
 
-/* Grid */
+/* GRID */
 .grid {
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:16px;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
 }
 
-/* 💎 Glass Card */
+/* 🌈 AI CARD */
 .card {
   position:relative;
-  background:var(--card);
-  border:1px solid var(--border);
-  padding:16px;
-  border-radius:12px;
-  backdrop-filter:blur(14px);
+  padding:20px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.08);
   cursor:pointer;
   transition:0.3s;
 }
+
 .card:hover {
-  transform:translateY(-6px) scale(1.02);
-  border-color:var(--accent);
-  box-shadow:0 10px 30px rgba(88,166,255,0.1);
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 20px 60px rgba(0,255,255,0.1);
 }
 
-/* Glow Edge */
+/* rainbow edge */
 .card::after {
   content:"";
   position:absolute;
   inset:0;
-  border-radius:12px;
+  border-radius:16px;
   padding:1px;
-  background:linear-gradient(120deg, transparent, rgba(88,166,255,0.4), transparent);
+  background:linear-gradient(120deg,#00f0ff,#ff00ff,#00ff88);
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
@@ -121,61 +129,27 @@ canvas {
 }
 .card:hover::after { opacity:1; }
 
-.card p {
-  font-size:13px;
-  color:var(--muted);
-}
-
-/* 📱 Modal Viewer */
+/* VIEWER */
 #viewer {
   position:fixed;
   bottom:-100%;
   left:0;
   right:0;
-  background:#070b10;
-  border-top:1px solid var(--border);
-  padding:20px;
+  background:#04070c;
+  padding:30px;
   max-height:75%;
   overflow:auto;
-  transition:0.35s ease;
-  z-index:100;
+  transition:0.4s;
 }
-#viewer.active {
-  bottom:0;
-}
+#viewer.active { bottom:0; }
 
-/* Code */
+/* CODE */
 pre {
   background:#020409;
-  padding:15px;
-  border-radius:10px;
+  padding:20px;
+  border-radius:12px;
+  color:#00f0ff;
   overflow:auto;
-  color:#58a6ff;
-}
-
-/* Mobile nav */
-.bottom-nav {
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  display:flex;
-  justify-content:space-around;
-  padding:10px 0;
-  backdrop-filter:blur(10px);
-  background:rgba(7,11,16,0.8);
-  border-top:1px solid var(--border);
-}
-.bottom-nav div {
-  font-size:12px;
-  color:var(--muted);
-  cursor:pointer;
-}
-
-/* Desktop */
-@media(min-width:900px){
-  .bottom-nav { display:none; }
-  .hero { padding:80px; }
 }
 </style>
 </head>
@@ -183,60 +157,86 @@ pre {
 <body>
 
 <canvas id="bg"></canvas>
-<div class="cursor-glow" id="glow"></div>
 
-<div class="header">Kimseak — Engineering System</div>
+<div class="header">Kimseak — AI System</div>
 
 <div class="hero">
-  <h1>Seak</h1>
-  <p>Mobile Systems Engineer</p>
-  <p>I design scalable, reliable mobile systems with offline-first architecture and real-world performance.</p>
+  <h1>Kimseak Phorn</h1>
+  <p>Mobile Systems Engineer • AI Thinking • Production Architecture</p>
 </div>
 
+<!-- SHARING -->
 <div class="section">
-  <h2>Sharing</h2>
+  <h2>Engineering Insights</h2>
   <div id="sharing" class="grid"></div>
 </div>
 
+<!-- CODE -->
 <div class="section">
-  <h2>Code Snippets</h2>
+  <h2>Code Patterns</h2>
   <div id="codeSnippets" class="grid"></div>
 </div>
 
 <div id="viewer"></div>
 
-<div class="bottom-nav">
-  <div onclick="go('sharing')">Sharing</div>
-  <div onclick="go('codeSnippets')">Code</div>
-</div>
-
 <script>
 
-/* DATA */
+/* 🧠 12+ ELITE INSIGHTS */
 const sharing = [
-{title:"Offline-first",desc:"Design without network",content:"# Offline\nLocal → Sync → Resolve"},
-{title:"Failure Default",desc:"Expect failure",content:"# Failure\nAlways fallback"},
-{title:"Architecture",desc:"Structure matters",content:"# Architecture\nLong-term thinking"},
-{title:"Performance",desc:"Design matters",content:"# Performance\nReduce work"},
-{title:"State",desc:"Control flow",content:"# State\nSingle truth"},
-{title:"Security",desc:"Protect system",content:"# Security\nNever trust client"}
+{title:"Offline-first Systems",desc:"Design beyond network",content:"# Offline-first\nAlways assume no internet."},
+{title:"Failure is Default",desc:"Resilience thinking",content:"# Failure\nFallback > Crash"},
+{title:"Architecture > Code",desc:"Longevity",content:"# Architecture\nStructure defines life"},
+{title:"API Reality",desc:"Mobile constraints",content:"# API\nRetry + idempotent"},
+{title:"Performance Design",desc:"Not optimization",content:"# Performance\nReduce work"},
+{title:"State Control",desc:"Predictability",content:"# State\nSingle source"},
+{title:"Flow Thinking",desc:"UX system",content:"# Flow\nUser journey"},
+{title:"Cache Layer",desc:"Speed",content:"# Cache\nAlways fallback"},
+{title:"Sync Engine",desc:"Offline complexity",content:"# Sync\nConflict resolve"},
+{title:"Security Model",desc:"Trust nothing",content:"# Security\nValidate all"},
+{title:"Scalability",desc:"Future ready",content:"# Scale\nDesign early"},
+{title:"Engineering Judgment",desc:"Decision making",content:"# Judgment\nTrade-offs"},
+{title:"System Behavior",desc:"Real-world",content:"# Behavior\nHandle edge cases"}
 ];
 
+/* 💻 CODE SNIPPETS */
 const codeSnippets = [
-{title:"iOS Async",desc:"Swift async",code:`let (data, _) = try await URLSession.shared.data(from:url)`},
-{title:"Android Retry",desc:"Kotlin retry",code:`repeat(3){ try{ call() } catch(e:Exception){} }`},
-{title:"Cache Fallback",desc:"Offline support",code:`if(apiFail) return cache`}
+
+{title:"iOS Async Await",desc:"Swift networking",
+code:`let (data, _) = try await URLSession.shared.data(from: url)`},
+
+{title:"iOS Retry",desc:"Swift retry",
+code:`func retry(times:Int){ if times>0 { retry(times:times-1) } }`},
+
+{title:"Android Retry",desc:"Kotlin",
+code:`repeat(3){ try{ call() } catch(e:Exception){} }`},
+
+{title:"Android Flow",desc:"StateFlow",
+code:`val state = MutableStateFlow<Data?>(null)`},
+
+{title:"API Fallback",desc:"Cache pattern",
+code:`if(apiFails){ return cache }`},
+
+{title:"Queue System",desc:"Offline queue",
+code:`let queue = []`},
+
+{title:"Exponential Backoff",desc:"Retry logic",
+code:`delay = base * 2^attempt`}
+
 ];
 
 /* RENDER */
 function render(){
-  sharing.forEach(i=>add("sharing",i,"post"));
-  codeSnippets.forEach(i=>add("codeSnippets",i,"code"));
+  sharing.forEach(i=>{
+    document.getElementById("sharing").innerHTML += card(i,"post");
+  });
+
+  codeSnippets.forEach(i=>{
+    document.getElementById("codeSnippets").innerHTML += card(i,"code");
+  });
 }
 
-function add(id,item,type){
-  document.getElementById(id).innerHTML += `
-  <div class="card" onclick='openItem(${JSON.stringify(item)},"${type}")'>
+function card(item,type){
+  return `<div class="card" onclick='openItem(${JSON.stringify(item)},"${type}")'>
     <h3>${item.title}</h3>
     <p>${item.desc}</p>
   </div>`;
@@ -251,51 +251,26 @@ function openItem(item,type){
 }
 viewer.onclick=()=>viewer.classList.remove("active");
 
-/* NAV */
-function go(id){
-  document.getElementById(id).scrollIntoView({behavior:"smooth"});
-}
-
-/* 🎇 Background animation */
+/* 🌌 STAR FIELD */
 const canvas=document.getElementById("bg");
 const ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
+canvas.width=innerWidth;
+canvas.height=innerHeight;
 
-let particles=[];
-for(let i=0;i<60;i++){
-  particles.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    dx:(Math.random()-0.5)*0.3,
-    dy:(Math.random()-0.5)*0.3
-  });
+let stars=[];
+for(let i=0;i<150;i++){
+  stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height});
 }
 
 function animate(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p=>{
-    p.x+=p.dx;
-    p.y+=p.dy;
-    if(p.x<0||p.x>canvas.width) p.dx*=-1;
-    if(p.y<0||p.y>canvas.height) p.dy*=-1;
-    ctx.fillStyle="rgba(88,166,255,0.3)";
-    ctx.fillRect(p.x,p.y,2,2);
+  stars.forEach(s=>{
+    ctx.fillStyle="white";
+    ctx.fillRect(s.x,s.y,1.2,1.2);
   });
   requestAnimationFrame(animate);
 }
 animate();
-
-/* ✨ Cursor glow (disable on mobile) */
-if(window.innerWidth > 768){
-  const glow=document.getElementById("glow");
-  window.addEventListener("mousemove",(e)=>{
-    glow.style.left=e.clientX+"px";
-    glow.style.top=e.clientY+"px";
-  });
-}else{
-  document.getElementById("glow").style.display="none";
-}
 
 render();
 
