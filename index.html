@@ -10,11 +10,41 @@
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <style>
+
 body {
   margin:0;
   font-family:"Space Grotesk", sans-serif;
-  background:#04070c;
   color:white;
+
+  /* 🌌 SPACE BACKGROUND (not too dark) */
+  background:
+    radial-gradient(circle at 20% 30%, rgba(0,240,255,0.15), transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(255,0,255,0.12), transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(0,255,150,0.10), transparent 50%),
+    linear-gradient(135deg, #060a12, #0a0f1c 40%, #05070d);
+
+  background-attachment: fixed;
+  overflow-x:hidden;
+}
+
+/* ✨ STARS */
+body::after {
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, white, transparent),
+    radial-gradient(1px 1px at 70% 60%, white, transparent),
+    radial-gradient(1px 1px at 40% 80%, white, transparent),
+    radial-gradient(2px 2px at 90% 20%, white, transparent);
+  opacity:0.15;
+  animation:starsMove 60s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes starsMove {
+  from { transform:translateY(0); }
+  to { transform:translateY(-200px); }
 }
 
 /* HERO */
@@ -46,15 +76,22 @@ body {
   object-fit:cover;
 }
 
-/* glow */
+/* 🌈 SOFT GLOW */
 .orb::before {
   content:"";
   position:absolute;
-  inset:-15px;
+  inset:-20px;
   border-radius:50%;
-  background:linear-gradient(120deg,#00f0ff,#ff00ff,#00ff88);
-  filter:blur(25px);
-  opacity:0.6;
+  background:conic-gradient(
+    from 0deg,
+    #00f0ff,
+    #7a5cff,
+    #ff00ff,
+    #00ff88,
+    #00f0ff
+  );
+  filter:blur(35px);
+  opacity:0.5;
   z-index:-1;
 }
 
@@ -74,7 +111,7 @@ h1 {
 }
 
 p {
-  color:#8b949e;
+  color:#9aa4af;
 }
 
 /* ABOUT */
@@ -103,18 +140,34 @@ p {
   margin-top:20px;
 }
 
-/* CARD */
+/* CARD (glass improved) */
 .card {
   padding:20px;
   border-radius:16px;
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.1);
   cursor:pointer;
   transition:0.3s;
+  position:relative;
+  overflow:hidden;
 }
+
+.card::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,0.1),transparent);
+  opacity:0;
+  transition:0.4s;
+}
+
+.card:hover::before {
+  opacity:1;
+}
+
 .card:hover {
-  transform:translateY(-6px);
+  transform:translateY(-6px) scale(1.01);
 }
 
 /* VIEWER */
@@ -123,7 +176,7 @@ p {
   bottom:-100%;
   left:0;
   right:0;
-  background:#04070c;
+  background:#060a12;
   padding:30px;
   max-height:75%;
   overflow:auto;
@@ -202,35 +255,21 @@ const sharing = [
 
 /* 💻 CODE */
 const codeSnippets = [
-
-{title:"Swift Async",desc:"Networking",
-code:`let (data, _) = try await URLSession.shared.data(from: url)`},
-
-{title:"Swift Retry",
-code:`func retry(times:Int){
- if times>0 { retry(times:times-1) }
-}`},
-
-{title:"Kotlin Coroutine",
-code:`val data = withContext(Dispatchers.IO){ api.get() }`},
-
-{title:"Kotlin Retry",
-code:`repeat(3){ try{ call() } catch{} }`},
-
-{title:"Flow State",
-code:`val state = MutableStateFlow<Data?>(null)`},
-
-{title:"Cache Fallback",
-code:`return apiData ?: cacheData`},
-
-{title:"Queue",
-code:`queue.push(req)`},
-
-{title:"Backoff",
-code:`delay = base * 2^attempt`}
+{title:"Swift Async",desc:"Networking",code:`let (data, _) = try await URLSession.shared.data(from: url)`},
+{title:"Swift Retry",code:`func retry(times:Int){ if times>0 { retry(times:times-1) } }`},
+{title:"Kotlin Coroutine",code:`val data = withContext(Dispatchers.IO){ api.get() }`},
+{title:"Kotlin Retry",code:`repeat(3){ try{ call() } catch{} }`},
+{title:"Flow State",code:`val state = MutableStateFlow<Data?>(null)`},
+{title:"Cache Fallback",code:`return apiData ?: cacheData`},
+{title:"Queue",code:`queue.push(req)`},
+{title:"Backoff",code:`delay = base * 2^attempt`}
 ];
 
 /* RENDER */
+const sharingEl=document.getElementById("sharing");
+const codeEl=document.getElementById("codeSnippets");
+const viewer=document.getElementById("viewer");
+
 function render(){
   sharing.forEach(i=>sharingEl.innerHTML += card(i,"post"));
   codeSnippets.forEach(i=>codeEl.innerHTML += card(i,"code"));
@@ -239,12 +278,9 @@ function render(){
 function card(item,type){
   return `<div class="card" onclick='openItem(${JSON.stringify(item)},"${type}")'>
     <h3>${item.title}</h3>
-    <p>${item.desc}</p>
+    <p>${item.desc || ""}</p>
   </div>`;
 }
-
-const sharingEl=document.getElementById("sharing");
-const codeEl=document.getElementById("codeSnippets");
 
 function openItem(item,type){
   viewer.classList.add("active");
@@ -294,14 +330,14 @@ function animate(){
     x+=dx*0.02;
     y+=dy*0.02;
 
-    ctx.fillStyle="cyan";
+    ctx.fillStyle="rgba(0,255,255,0.8)";
     ctx.fillRect(x,y,2,2);
   });
 
   requestAnimationFrame(animate);
 }
-animate();
 
+animate();
 render();
 
 </script>
