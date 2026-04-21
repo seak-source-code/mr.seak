@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kimseak Phorn | Engineering</title>
+<title>Kimseak — Mobile Systems Engineer</title>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <style>
 :root {
-  --bg:#0d1117;
-  --card:#161b22;
+  --bg:#070b10;
+  --card:rgba(255,255,255,0.05);
+  --border:rgba(255,255,255,0.1);
   --text:#e6edf3;
   --muted:#8b949e;
   --accent:#58a6ff;
@@ -21,282 +22,279 @@ body {
   font-family:-apple-system, sans-serif;
   background:var(--bg);
   color:var(--text);
+  overflow-x:hidden;
 }
 
-.layout { display:flex; }
-
-/* SIDEBAR */
-.sidebar {
-  width:240px;
-  padding:40px 20px;
-  border-right:1px solid #30363d;
-  height:100vh;
-  position:sticky;
+/* 🌌 Ambient Background */
+canvas {
+  position:fixed;
   top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-2;
 }
 
-.brand {
-  font-size:18px;
-  font-weight:600;
-  margin-bottom:30px;
+/* ✨ Cursor Glow */
+.cursor-glow {
+  position:fixed;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(88,166,255,0.15), transparent 60%);
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  z-index:-1;
 }
 
-.nav-item {
-  margin:12px 0;
-  color:var(--muted);
-  cursor:pointer;
+/* Header */
+.header {
+  padding:20px;
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(10px);
 }
 
-.nav-item:hover { color:var(--accent); }
-
-/* MAIN */
-.main {
-  flex:1;
-  max-width:880px;
-  padding:80px 60px;
+/* Hero */
+.hero {
+  padding:40px 20px;
 }
-
-/* HERO */
 .hero h1 {
-  font-size:42px;
-  background:linear-gradient(90deg,#58a6ff,#2ea043);
+  font-size:34px;
+  background:linear-gradient(90deg,#58a6ff,#2ea043,#a371f7);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
-
 .hero p {
   color:var(--muted);
-  line-height:1.8;
+  max-width:700px;
 }
 
-/* METRICS */
-.metrics {
-  margin-top:20px;
-  display:flex;
-  flex-wrap:wrap;
-}
-
-.metrics span {
-  margin:5px;
-  padding:6px 12px;
-  background:#161b22;
-  border-radius:999px;
-  font-size:12px;
-  border:1px solid #30363d;
-}
-
-/* SECTION */
+/* Section */
 .section {
-  margin-top:80px;
+  padding:40px 20px;
 }
-
-.section-title {
+.section h2 {
   font-size:12px;
-  text-transform:uppercase;
   color:var(--muted);
-  margin-bottom:15px;
+  text-transform:uppercase;
+  margin-bottom:20px;
 }
 
-/* GRID */
+/* Grid */
 .grid {
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px;
 }
 
-/* CARD */
+/* 💎 Glass Card */
 .card {
+  position:relative;
   background:var(--card);
-  padding:24px;
+  border:1px solid var(--border);
+  padding:16px;
   border-radius:12px;
-  border:1px solid #30363d;
+  backdrop-filter:blur(14px);
   cursor:pointer;
-  transition:0.2s;
+  transition:0.3s;
+}
+.card:hover {
+  transform:translateY(-6px) scale(1.02);
+  border-color:var(--accent);
+  box-shadow:0 10px 30px rgba(88,166,255,0.1);
 }
 
-.card:hover {
-  border-color:var(--accent);
-  transform:translateY(-4px);
+/* Glow Edge */
+.card::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:12px;
+  padding:1px;
+  background:linear-gradient(120deg, transparent, rgba(88,166,255,0.4), transparent);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  opacity:0;
+  transition:0.3s;
 }
+.card:hover::after { opacity:1; }
 
 .card p {
-  font-size:14px;
+  font-size:13px;
   color:var(--muted);
 }
 
-/* VIEW */
+/* 📱 Modal Viewer */
 #viewer {
-  margin-top:50px;
+  position:fixed;
+  bottom:-100%;
+  left:0;
+  right:0;
+  background:#070b10;
+  border-top:1px solid var(--border);
+  padding:20px;
+  max-height:75%;
+  overflow:auto;
+  transition:0.35s ease;
+  z-index:100;
+}
+#viewer.active {
+  bottom:0;
 }
 
-/* CODE */
+/* Code */
 pre {
-  background:#000;
-  padding:14px;
-  border-radius:8px;
-  position:relative;
+  background:#020409;
+  padding:15px;
+  border-radius:10px;
+  overflow:auto;
+  color:#58a6ff;
 }
 
-.copy-btn {
-  position:absolute;
-  top:8px;
-  right:8px;
-  background:var(--accent);
-  border:none;
-  padding:4px 8px;
-  font-size:11px;
+/* Mobile nav */
+.bottom-nav {
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+  backdrop-filter:blur(10px);
+  background:rgba(7,11,16,0.8);
+  border-top:1px solid var(--border);
+}
+.bottom-nav div {
+  font-size:12px;
+  color:var(--muted);
   cursor:pointer;
-  border-radius:6px;
 }
 
-html { scroll-behavior:smooth; }
+/* Desktop */
+@media(min-width:900px){
+  .bottom-nav { display:none; }
+  .hero { padding:80px; }
+}
 </style>
 </head>
 
 <body>
 
-<div class="layout">
+<canvas id="bg"></canvas>
+<div class="cursor-glow" id="glow"></div>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div class="brand">Kimseak</div>
+<div class="header">Kimseak — Engineering System</div>
 
-    <div class="nav-item" onclick="go('about')">About</div>
-    <div class="nav-item" onclick="go('insights')">Insights</div>
-    <div class="nav-item" onclick="go('knowledge')">Knowledge</div>
-    <div class="nav-item" onclick="go('code')">Code</div>
-  </div>
+<div class="hero">
+  <h1>Seak</h1>
+  <p>Mobile Systems Engineer</p>
+  <p>I design scalable, reliable mobile systems with offline-first architecture and real-world performance.</p>
+</div>
 
-  <!-- MAIN -->
-  <div class="main">
+<div class="section">
+  <h2>Sharing</h2>
+  <div id="sharing" class="grid"></div>
+</div>
 
-    <!-- PROFILE -->
-    <div id="about" class="hero">
-      <h1>Kimseak Phorn</h1>
-      <p>Senior Software Engineer • Mobile (iOS & Android) • 7+ Years</p>
-      <p>
-        I build scalable mobile systems, lead engineering teams,
-        and solve real-world production challenges in architecture,
-        performance, and security.
-      </p>
+<div class="section">
+  <h2>Code Snippets</h2>
+  <div id="codeSnippets" class="grid"></div>
+</div>
 
-      <div class="metrics">
-        <span>7+ Years Experience</span>
-        <span>10+ Production Apps</span>
-        <span>Architecture & Security</span>
-        <span>Team Leadership</span>
-      </div>
-    </div>
+<div id="viewer"></div>
 
-    <!-- INSIGHTS -->
-    <div id="insights" class="section">
-      <div class="section-title">Insights</div>
-      <div id="insightGrid" class="grid"></div>
-    </div>
-
-    <!-- KNOWLEDGE -->
-    <div id="knowledge" class="section">
-      <div class="section-title">Knowledge</div>
-      <div id="knowledgeGrid" class="grid"></div>
-    </div>
-
-    <!-- CODE -->
-    <div id="code" class="section">
-      <div class="section-title">Code Snippets</div>
-      <div id="codeGrid" class="grid"></div>
-    </div>
-
-    <!-- VIEW -->
-    <div id="viewer"></div>
-
-  </div>
-
+<div class="bottom-nav">
+  <div onclick="go('sharing')">Sharing</div>
+  <div onclick="go('codeSnippets')">Code</div>
 </div>
 
 <script>
 
-/* INSIGHTS */
-const insights = [
-{
-title:"Mobile Security is About Risk",
-desc:"No app is fully secure",
-content:"# Security\nFocus on reducing risk, not perfection."
-},
-{
-title:"Architecture > Code",
-desc:"Structure defines scalability",
-content:"# Architecture\nGood structure scales better than code quality."
-}
+/* DATA */
+const sharing = [
+{title:"Offline-first",desc:"Design without network",content:"# Offline\nLocal → Sync → Resolve"},
+{title:"Failure Default",desc:"Expect failure",content:"# Failure\nAlways fallback"},
+{title:"Architecture",desc:"Structure matters",content:"# Architecture\nLong-term thinking"},
+{title:"Performance",desc:"Design matters",content:"# Performance\nReduce work"},
+{title:"State",desc:"Control flow",content:"# State\nSingle truth"},
+{title:"Security",desc:"Protect system",content:"# Security\nNever trust client"}
 ];
 
-/* KNOWLEDGE */
-const knowledge = [
-{
-title:"Offline-first Architecture",
-desc:"Design apps without internet",
-content:"# Offline-first\nlocal → sync → server"
-},
-{
-title:"API Failure Handling",
-desc:"Resilient systems",
-content:"# API Failure\nFallback to cache"
-}
+const codeSnippets = [
+{title:"iOS Async",desc:"Swift async",code:`let (data, _) = try await URLSession.shared.data(from:url)`},
+{title:"Android Retry",desc:"Kotlin retry",code:`repeat(3){ try{ call() } catch(e:Exception){} }`},
+{title:"Cache Fallback",desc:"Offline support",code:`if(apiFail) return cache`}
 ];
-
-/* CODE */
-const snippets = [
-{
-title:"Keychain Example",
-desc:"Secure storage",
-code:`let key = Keychain.load("secure")`
-},
-{
-title:"Retry Logic",
-desc:"API retry",
-code:`retry(3){ callAPI() }`
-}
-];
-
-/* ELEMENTS */
-const insightGrid = document.getElementById("insightGrid");
-const knowledgeGrid = document.getElementById("knowledgeGrid");
-const codeGrid = document.getElementById("codeGrid");
-const viewer = document.getElementById("viewer");
 
 /* RENDER */
 function render(){
-  insights.forEach(p=>{
-    insightGrid.innerHTML += `<div class="card" onclick="openPost(p)"><h3>${p.title}</h3><p>${p.desc}</p></div>`;
-  });
-
-  knowledge.forEach(p=>{
-    knowledgeGrid.innerHTML += `<div class="card" onclick="openPost(p)"><h3>${p.title}</h3><p>${p.desc}</p></div>`;
-  });
-
-  snippets.forEach(s=>{
-    codeGrid.innerHTML += `<div class="card" onclick="openCode(s)"><h3>${s.title}</h3><p>${s.desc}</p></div>`;
-  });
+  sharing.forEach(i=>add("sharing",i,"post"));
+  codeSnippets.forEach(i=>add("codeSnippets",i,"code"));
 }
 
-/* OPEN */
-function openPost(post){
-  viewer.innerHTML = `<h2>${post.title}</h2>${marked.parse(post.content)}`;
+function add(id,item,type){
+  document.getElementById(id).innerHTML += `
+  <div class="card" onclick='openItem(${JSON.stringify(item)},"${type}")'>
+    <h3>${item.title}</h3>
+    <p>${item.desc}</p>
+  </div>`;
 }
 
-function openCode(s){
-  viewer.innerHTML = `<h2>${s.title}</h2><pre>${s.code}</pre>`;
-  document.querySelectorAll("pre").forEach(block=>{
-    const btn=document.createElement("button");
-    btn.innerText="Copy";
-    btn.className="copy-btn";
-    btn.onclick=()=>navigator.clipboard.writeText(block.innerText);
-    block.appendChild(btn);
-  });
+/* VIEWER */
+function openItem(item,type){
+  viewer.classList.add("active");
+  viewer.innerHTML = type==="code"
+    ? `<h2>${item.title}</h2><pre>${item.code}</pre>`
+    : marked.parse(item.content);
 }
+viewer.onclick=()=>viewer.classList.remove("active");
 
 /* NAV */
 function go(id){
-  document.getElementById(id).scrollIntoView();
+  document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+/* 🎇 Background animation */
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+for(let i=0;i<60;i++){
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    dx:(Math.random()-0.5)*0.3,
+    dy:(Math.random()-0.5)*0.3
+  });
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    p.x+=p.dx;
+    p.y+=p.dy;
+    if(p.x<0||p.x>canvas.width) p.dx*=-1;
+    if(p.y<0||p.y>canvas.height) p.dy*=-1;
+    ctx.fillStyle="rgba(88,166,255,0.3)";
+    ctx.fillRect(p.x,p.y,2,2);
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* ✨ Cursor glow (disable on mobile) */
+if(window.innerWidth > 768){
+  const glow=document.getElementById("glow");
+  window.addEventListener("mousemove",(e)=>{
+    glow.style.left=e.clientX+"px";
+    glow.style.top=e.clientY+"px";
+  });
+}else{
+  document.getElementById("glow").style.display="none";
 }
 
 render();
