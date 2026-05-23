@@ -1,344 +1,1276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Kimseak — Mobile Systems Engineer</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<title>Kimseak Phorn | Mobile Engineer & Coding Creator</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
-body {
+/* ======================================================
+   RESET
+====================================================== */
+
+*{
   margin:0;
-  font-family:"Space Grotesk", sans-serif;
-  color:white;
+  padding:0;
+  box-sizing:border-box;
+}
 
-  /* 🌌 SPACE BACKGROUND (not too dark) */
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+
+  font-family:'Inter',sans-serif;
+
   background:
-    radial-gradient(circle at 20% 30%, rgba(0,240,255,0.15), transparent 40%),
-    radial-gradient(circle at 80% 20%, rgba(255,0,255,0.12), transparent 40%),
-    radial-gradient(circle at 50% 80%, rgba(0,255,150,0.10), transparent 50%),
-    linear-gradient(135deg, #060a12, #0a0f1c 40%, #05070d);
+    radial-gradient(circle at top left,
+    rgba(212,175,55,0.10),
+    transparent 30%),
 
-  background-attachment: fixed;
+    radial-gradient(circle at bottom right,
+    rgba(255,255,255,0.03),
+    transparent 25%),
+
+    linear-gradient(
+      135deg,
+      #020202,
+      #0b0b0c,
+      #111111
+    );
+
+  color:#fff;
+
   overflow-x:hidden;
 }
 
-/* ✨ STARS */
-body::after {
-  content:"";
-  position:fixed;
-  inset:0;
-  background-image:
-    radial-gradient(2px 2px at 20% 30%, white, transparent),
-    radial-gradient(1px 1px at 70% 60%, white, transparent),
-    radial-gradient(1px 1px at 40% 80%, white, transparent),
-    radial-gradient(2px 2px at 90% 20%, white, transparent);
-  opacity:0.15;
-  animation:starsMove 60s linear infinite;
-  pointer-events:none;
+/* ======================================================
+   VARIABLES
+====================================================== */
+
+:root{
+
+  --gold:#d4af37;
+  --gold-light:#f5d76e;
+
+  --gray:#9ca3af;
+
+  --card:#121212;
+
+  --border:
+  rgba(255,255,255,0.08);
+
 }
 
-@keyframes starsMove {
-  from { transform:translateY(0); }
-  to { transform:translateY(-200px); }
-}
+/* ======================================================
+   CONTAINER
+====================================================== */
 
-/* HERO */
-.hero {
-  padding:100px 20px;
-  text-align:center;
-}
-
-/* ORB */
-.orb-container {
-  position:relative;
-  width:220px;
-  height:220px;
+.container{
+  width:min(1200px,92%);
   margin:auto;
 }
 
-.orb {
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  overflow:hidden;
-  position:relative;
-  z-index:2;
-}
+/* ======================================================
+   BACKGROUND GLOW
+====================================================== */
 
-.orb img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+.bg-glow{
 
-/* 🌈 SOFT GLOW */
-.orb::before {
-  content:"";
-  position:absolute;
-  inset:-20px;
-  border-radius:50%;
-  background:conic-gradient(
-    from 0deg,
-    #00f0ff,
-    #7a5cff,
-    #ff00ff,
-    #00ff88,
-    #00f0ff
+  position:fixed;
+
+  width:700px;
+  height:700px;
+
+  background:
+  radial-gradient(
+    circle,
+    rgba(212,175,55,0.14),
+    transparent 70%
   );
-  filter:blur(35px);
-  opacity:0.5;
+
+  top:-250px;
+  right:-250px;
+
+  filter:blur(100px);
+
   z-index:-1;
+
+  pointer-events:none;
 }
 
-/* PARTICLES */
-#particles {
-  position:absolute;
-  inset:0;
-  z-index:1;
+/* ======================================================
+   NAVBAR
+====================================================== */
+
+nav{
+
+  position:fixed;
+
+  top:0;
+
+  width:100%;
+
+  z-index:999;
+
+  backdrop-filter:blur(18px);
+
+  background:
+  rgba(0,0,0,0.65);
+
+  border-bottom:
+  1px solid rgba(212,175,55,0.12);
 }
 
-/* TEXT */
-h1 {
-  font-size:42px;
-  background:linear-gradient(90deg,#00f0ff,#ff00ff,#00ff88);
+.nav-inner{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  padding:20px 0;
+}
+
+.logo{
+
+  font-size:22px;
+
+  font-weight:800;
+}
+
+.logo span{
+  color:var(--gold);
+}
+
+.nav-links{
+
+  display:flex;
+
+  gap:30px;
+}
+
+.nav-links a{
+
+  text-decoration:none;
+
+  color:#fff;
+
+  font-size:14px;
+
+  transition:0.3s;
+}
+
+.nav-links a:hover{
+  color:var(--gold-light);
+}
+
+/* ======================================================
+   MOBILE MENU
+====================================================== */
+
+.menu-btn{
+
+  display:none;
+
+  font-size:28px;
+
+  cursor:pointer;
+}
+
+.mobile-menu{
+
+  position:fixed;
+
+  top:0;
+  right:-100%;
+
+  width:260px;
+  height:100vh;
+
+  background:#0d0d0d;
+
+  padding:100px 30px;
+
+  transition:0.4s;
+
+  z-index:1000;
+}
+
+.mobile-menu.active{
+  right:0;
+}
+
+.mobile-menu a{
+
+  display:block;
+
+  color:white;
+
+  text-decoration:none;
+
+  margin-bottom:24px;
+
+  font-size:18px;
+}
+
+/* ======================================================
+   HERO
+====================================================== */
+
+.hero{
+
+  min-height:100vh;
+
+  display:flex;
+
+  align-items:center;
+
+  padding-top:120px;
+}
+
+.hero-grid{
+
+  display:grid;
+
+  grid-template-columns:1.1fr 0.9fr;
+
+  gap:60px;
+
+  align-items:center;
+}
+
+.hero-left h3{
+
+  color:var(--gold);
+
+  letter-spacing:2px;
+
+  margin-bottom:24px;
+
+  text-transform:uppercase;
+
+  font-size:14px;
+}
+
+.hero-left h1{
+
+  font-size:clamp(52px,8vw,96px);
+
+  line-height:1;
+
+  margin-bottom:26px;
+
+  font-weight:800;
+}
+
+.gradient{
+
+  background:
+  linear-gradient(
+    90deg,
+    #d4af37,
+    #f5d76e,
+    #ffffff
+  );
+
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 
-p {
-  color:#9aa4af;
+.hero-left p{
+
+  color:var(--gray);
+
+  line-height:1.9;
+
+  font-size:18px;
+
+  max-width:650px;
 }
 
-/* ABOUT */
-.about {
-  max-width:800px;
-  margin:auto;
-  margin-top:30px;
-  line-height:1.7;
+/* ======================================================
+   BUTTONS
+====================================================== */
+
+.hero-buttons{
+
+  margin-top:42px;
+
+  display:flex;
+
+  gap:16px;
+
+  flex-wrap:wrap;
 }
 
-/* SECTION */
-.section {
-  padding:60px 20px;
-}
+.btn{
 
-.section h2 {
-  font-size:14px;
-  color:#8b949e;
-}
+  padding:15px 24px;
 
-/* GRID */
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
-  margin-top:20px;
-}
-
-/* CARD (glass improved) */
-.card {
-  padding:20px;
   border-radius:16px;
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,0.1);
-  cursor:pointer;
+
+  text-decoration:none;
+
+  font-weight:700;
+
   transition:0.3s;
+}
+
+.btn-primary{
+
+  background:
+  linear-gradient(
+    90deg,
+    #d4af37,
+    #f5d76e
+  );
+
+  color:#111;
+}
+
+.btn-primary:hover{
+
+  transform:translateY(-4px);
+
+  box-shadow:
+  0 15px 40px rgba(212,175,55,0.25);
+}
+
+.btn-outline{
+
+  border:
+  1px solid rgba(255,255,255,0.1);
+
+  color:white;
+}
+
+.btn-outline:hover{
+
+  border-color:var(--gold);
+
+  color:var(--gold-light);
+}
+
+/* ======================================================
+   PROFILE CARD
+====================================================== */
+
+.profile-card{
+
   position:relative;
+
+  max-width:420px;
+
+  margin:auto;
+
+  border-radius:32px;
+
+  overflow:hidden;
+
+  background:
+  linear-gradient(
+    180deg,
+    rgba(255,255,255,0.04),
+    rgba(255,255,255,0.02)
+  );
+
+  border:
+  1px solid rgba(212,175,55,0.12);
+
+  backdrop-filter:blur(20px);
+
+  box-shadow:
+  0 20px 80px rgba(0,0,0,0.45);
+
+  animation:floaty 6s ease-in-out infinite;
+}
+
+.profile-card img{
+
+  width:100%;
+
+  height:560px;
+
+  object-fit:cover;
+
+  display:block;
+}
+
+.profile-info{
+
+  padding:28px;
+
+  text-align:center;
+}
+
+.profile-info h3{
+
+  font-size:28px;
+
+  margin-bottom:10px;
+}
+
+.profile-info p{
+
+  color:var(--gold-light);
+
+  letter-spacing:1px;
+}
+
+.profile-glow{
+
+  position:absolute;
+
+  inset:0;
+
+  background:
+  radial-gradient(
+    circle at top,
+    rgba(212,175,55,0.25),
+    transparent 50%
+  );
+
+  pointer-events:none;
+}
+
+/* ======================================================
+   SECTIONS
+====================================================== */
+
+section{
+  padding:120px 0;
+}
+
+.section-title{
+
+  margin-bottom:60px;
+}
+
+.section-title h2{
+
+  font-size:44px;
+
+  margin-bottom:16px;
+}
+
+.section-title p{
+
+  color:var(--gray);
+
+  max-width:700px;
+
+  line-height:1.9;
+}
+
+/* ======================================================
+   GRID
+====================================================== */
+
+.grid{
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(280px,1fr));
+
+  gap:24px;
+}
+
+/* ======================================================
+   CARD
+====================================================== */
+
+.card{
+
+  background:
+  linear-gradient(
+    180deg,
+    rgba(255,255,255,0.03),
+    rgba(255,255,255,0.02)
+  );
+
+  border:
+  1px solid rgba(212,175,55,0.08);
+
+  border-radius:24px;
+
+  padding:30px;
+
+  transition:0.4s;
+
+  position:relative;
+
   overflow:hidden;
 }
 
-.card::before {
+.card::before{
+
   content:"";
+
   position:absolute;
+
   inset:0;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,0.1),transparent);
-  opacity:0;
-  transition:0.4s;
+
+  background:
+  linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.04),
+    transparent
+  );
+
+  transform:translateX(-100%);
+
+  transition:0.7s;
 }
 
-.card:hover::before {
-  opacity:1;
+.card:hover::before{
+  transform:translateX(100%);
 }
 
-.card:hover {
-  transform:translateY(-6px) scale(1.01);
+.card:hover{
+
+  transform:
+  translateY(-8px);
+
+  border-color:
+  rgba(212,175,55,0.35);
+
+  box-shadow:
+  0 20px 60px rgba(212,175,55,0.12);
 }
 
-/* VIEWER */
-#viewer {
-  position:fixed;
-  bottom:-100%;
-  left:0;
-  right:0;
-  background:#060a12;
-  padding:30px;
-  max-height:75%;
-  overflow:auto;
-  transition:0.4s;
-}
-#viewer.active { bottom:0; }
+.card h3{
 
-/* CODE */
-pre {
-  background:#020409;
-  padding:20px;
-  border-radius:12px;
-  color:#00f0ff;
+  margin-bottom:14px;
+
+  font-size:22px;
+}
+
+.card p{
+
+  color:var(--gray);
+
+  line-height:1.8;
+}
+
+/* ======================================================
+   CONTENT CARD
+====================================================== */
+
+.content-card{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:18px;
+}
+
+.content-card small{
+
+  color:var(--gold);
+
+  letter-spacing:1px;
+}
+
+/* ======================================================
+   TAGS
+====================================================== */
+
+.tags{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:14px;
+}
+
+.tag{
+
+  padding:13px 18px;
+
+  background:
+  rgba(255,255,255,0.03);
+
+  border:
+  1px solid rgba(212,175,55,0.10);
+
+  border-radius:14px;
+
+  color:#e5e7eb;
+
+  font-size:14px;
+}
+
+/* ======================================================
+   SOCIALS
+====================================================== */
+
+.socials{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:18px;
+}
+
+.socials a{
+
+  text-decoration:none;
+
+  color:white;
+
+  padding:16px 22px;
+
+  border-radius:16px;
+
+  background:
+  rgba(255,255,255,0.03);
+
+  border:
+  1px solid rgba(212,175,55,0.12);
+
+  transition:0.3s;
+}
+
+.socials a:hover{
+
+  transform:translateY(-4px);
+
+  border-color:var(--gold);
+
+  color:var(--gold-light);
+
+  box-shadow:
+  0 10px 30px rgba(212,175,55,0.12);
+}
+
+/* ======================================================
+   FOOTER
+====================================================== */
+
+footer{
+
+  padding:70px 0;
+
+  border-top:
+  1px solid rgba(255,255,255,0.06);
+
+  text-align:center;
+
+  color:var(--gray);
+}
+
+/* ======================================================
+   ANIMATION
+====================================================== */
+
+@keyframes floaty{
+
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-8px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
+
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media(max-width:980px){
+
+  .hero-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero{
+    text-align:center;
+  }
+
+  .hero-left p{
+    margin:auto;
+  }
+
+  .hero-buttons{
+    justify-content:center;
+  }
+
+  .nav-links{
+    display:none;
+  }
+
+  .menu-btn{
+    display:block;
+  }
+
+  .profile-card{
+    margin-top:30px;
+  }
+
+}
+
+@media(max-width:600px){
+
+  section{
+    padding:90px 0;
+  }
+
+  .hero-left h1{
+    font-size:58px;
+  }
+
+  .section-title h2{
+    font-size:34px;
+  }
+
+  .profile-card img{
+    height:460px;
+  }
+
+  .hero-left p{
+    font-size:16px;
+  }
+
+  .btn{
+    width:100%;
+    text-align:center;
+  }
+
+  .hero-buttons{
+    flex-direction:column;
+  }
+
 }
 
 </style>
+
 </head>
 
 <body>
 
-<!-- HERO -->
-<div class="hero">
+<div class="bg-glow"></div>
 
-  <div class="orb-container">
-    <canvas id="particles"></canvas>
-    <div class="orb">
-      <img src="https://raw.githubusercontent.com/seak-source-code/kimseak-portfolio/refs/heads/main/kimseak.jpg">
+<!-- ======================================================
+   MOBILE MENU
+====================================================== -->
+
+<div class="mobile-menu" id="mobileMenu">
+
+  <a href="#about">About</a>
+  <a href="#projects">Projects</a>
+  <a href="#content">Content</a>
+  <a href="#stack">Stack</a>
+  <a href="#contact">Contact</a>
+
+</div>
+
+<!-- ======================================================
+   NAVBAR
+====================================================== -->
+
+<nav>
+
+  <div class="container nav-inner">
+
+    <div class="logo">
+      Kim<span>seak</span>
     </div>
+
+    <div class="nav-links">
+
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#content">Content</a>
+      <a href="#stack">Stack</a>
+      <a href="#contact">Contact</a>
+
+    </div>
+
+    <div class="menu-btn" onclick="toggleMenu()">
+      ☰
+    </div>
+
   </div>
 
-  <h1>Kimseak Phorn</h1>
-  <p>Mobile Systems Engineer</p>
+</nav>
 
-  <div class="about">
-    I design and build scalable mobile systems with a focus on reliability, performance, and real-world behavior.
-    My work goes beyond UI into system architecture, failure handling, and long-term maintainability.
-    I focus on building systems that continue to work under unstable networks, high load, and real user conditions.
+<!-- ======================================================
+   HERO
+====================================================== -->
+
+<section class="hero">
+
+  <div class="container hero-grid">
+
+    <div class="hero-left">
+
+      <h3>
+        Mobile Engineer • Coding Creator
+      </h3>
+
+      <h1>
+
+        Building
+        <span class="gradient">
+          Scalable
+        </span>
+        Mobile Systems
+
+      </h1>
+
+      <p>
+
+        Mobile engineer and coding creator focused on scalable architecture,
+        offline-first systems, deep linking, mobile banking infrastructure,
+        and real-world performance engineering.
+
+      </p>
+
+      <div class="hero-buttons">
+
+        <a href="#projects"
+           class="btn btn-primary">
+          View Projects
+        </a>
+
+        <a href="https://github.com/seak-source-code"
+           target="_blank"
+           class="btn btn-outline">
+          GitHub
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- PROFILE -->
+
+    <div class="profile-card">
+
+      <div class="profile-glow"></div>
+
+      <img
+      src="https://raw.githubusercontent.com/seak-source-code/kimseak-portfolio/refs/heads/main/kimseak.jpg"
+      alt="Kimseak">
+
+      <div class="profile-info">
+
+        <h3>Kimseak Phorn</h3>
+
+        <p>
+          Mobile Engineer • Coding Creator
+        </p>
+
+      </div>
+
+    </div>
+
   </div>
 
-</div>
+</section>
 
-<!-- INSIGHTS -->
-<div class="section">
-  <h2>Engineering Insights</h2>
-  <div id="sharing" class="grid"></div>
-</div>
+<!-- ======================================================
+   ABOUT
+====================================================== -->
 
-<!-- CODE -->
-<div class="section">
-  <h2>Code Patterns</h2>
-  <div id="codeSnippets" class="grid"></div>
-</div>
+<section id="about">
 
-<div id="viewer"></div>
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>About Me</h2>
+
+      <p>
+
+        I focus on building reliable mobile systems that work in real-world conditions.
+        My work includes scalable architecture, offline sync, notification systems,
+        retry handling, deep linking, feature delivery, and mobile performance optimization.
+
+      </p>
+
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+
+        <h3>Offline-first Systems</h3>
+
+        <p>
+          Building apps that continue to work
+          even with unstable or slow networks.
+        </p>
+
+      </div>
+
+      <div class="card">
+
+        <h3>Architecture</h3>
+
+        <p>
+          Designing scalable systems for
+          long-term maintainability and growth.
+        </p>
+
+      </div>
+
+      <div class="card">
+
+        <h3>Performance</h3>
+
+        <p>
+          Optimizing rendering, memory,
+          network flow, and background execution.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+   PROJECTS
+====================================================== -->
+
+<section id="projects">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>Projects & Systems</h2>
+
+      <p>
+
+        Real-world engineering systems focused on scalability,
+        stability, and production mobile environments.
+
+      </p>
+
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+
+        <h3>Banking App Architecture</h3>
+
+        <p>
+          Scalable mobile architecture with modular features,
+          retry-safe APIs, and dynamic configuration.
+        </p>
+
+      </div>
+
+      <div class="card">
+
+        <h3>Offline Queue Engine</h3>
+
+        <p>
+          Smart sync queue with retry handling,
+          local persistence, and conflict resolution.
+        </p>
+
+      </div>
+
+      <div class="card">
+
+        <h3>Deep Link Platform</h3>
+
+        <p>
+          Universal deep linking system connecting web,
+          app flows, QR flows, and notification routing.
+        </p>
+
+      </div>
+
+      <div class="card">
+
+        <h3>Notification Infrastructure</h3>
+
+        <p>
+          Dynamic notification engine with sound routing,
+          feature control, and scalable targeting.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+   CONTENT
+====================================================== -->
+
+<section id="content">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>Creator Content</h2>
+
+      <p>
+
+        Sharing engineering insights, architecture patterns,
+        and scalable mobile development concepts.
+
+      </p>
+
+    </div>
+
+    <div class="grid">
+
+      <div class="card content-card">
+
+        <small>ARCHITECTURE</small>
+
+        <h3>Offline-first Mobile Apps</h3>
+
+        <p>
+          How scalable apps handle unstable network conditions
+          using queues, sync systems, and local persistence.
+        </p>
+
+      </div>
+
+      <div class="card content-card">
+
+        <small>IOS</small>
+
+        <h3>Retry Logic in Swift</h3>
+
+        <p>
+          Building resilient API layers using retry policies,
+          exponential backoff, and async handling.
+        </p>
+
+      </div>
+
+      <div class="card content-card">
+
+        <small>ANDROID</small>
+
+        <h3>Kotlin Flow State Management</h3>
+
+        <p>
+          Managing scalable app state using Flow,
+          coroutines, and clean architecture.
+        </p>
+
+      </div>
+
+      <div class="card content-card">
+
+        <small>SYSTEM DESIGN</small>
+
+        <h3>Scaling Mobile Banking Apps</h3>
+
+        <p>
+          Real-world strategies for performance,
+          modularization, observability, and feature delivery.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+   STACK
+====================================================== -->
+
+<section id="stack">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>Tech Stack</h2>
+
+      <p>
+
+        Technologies and systems I use
+        to build scalable mobile platforms.
+
+      </p>
+
+    </div>
+
+    <div class="tags">
+
+      <div class="tag">Swift</div>
+      <div class="tag">Kotlin</div>
+      <div class="tag">Flutter</div>
+      <div class="tag">Firebase</div>
+      <div class="tag">WebSocket</div>
+      <div class="tag">GraphQL</div>
+      <div class="tag">REST API</div>
+      <div class="tag">Fastlane</div>
+      <div class="tag">CI/CD</div>
+      <div class="tag">Feature Flags</div>
+      <div class="tag">Deep Linking</div>
+      <div class="tag">Push Notification</div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+   GITHUB CTA
+====================================================== -->
+
+<section>
+
+  <div class="container">
+
+    <div class="card"
+         style="text-align:center;padding:70px;">
+
+      <h2 class="gradient">
+
+        Explore My Open Source Work
+
+      </h2>
+
+      <br>
+
+      <p>
+
+        Mobile architecture, reusable systems,
+        coding experiments, and scalable engineering concepts.
+
+      </p>
+
+      <br><br>
+
+      <a
+      href="https://github.com/seak-source-code"
+      target="_blank"
+      class="btn btn-primary">
+
+      Visit GitHub
+
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+   CONTACT
+====================================================== -->
+
+<section id="contact">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>Connect & Follow</h2>
+
+      <p>
+
+        Follow my journey building scalable mobile systems,
+        architecture patterns, and coding content.
+
+      </p>
+
+    </div>
+
+    <div class="socials">
+
+      <a href="https://github.com/seak-source-code"
+         target="_blank">
+         GitHub
+      </a>
+
+      <a href="#">
+        LinkedIn
+      </a>
+
+      <a href="#">
+        YouTube
+      </a>
+
+      <a href="#">
+        TikTok
+      </a>
+
+      <a href="#">
+        Telegram
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+   FOOTER
+====================================================== -->
+
+<footer>
+
+  <div class="container">
+
+    © 2026 Kimseak Phorn —
+    Mobile Engineer & Coding Creator
+
+  </div>
+
+</footer>
+
+<!-- ======================================================
+   SCRIPT
+====================================================== -->
 
 <script>
 
-/* 🧠 INSIGHTS */
-const sharing = [
-{title:"Offline-first",desc:"Design without network",content:"# Offline\nLocal → Queue → Sync"},
-{title:"Failure Handling",desc:"Not optional",content:"# Failure\nRetry + fallback"},
-{title:"Architecture",desc:"Structure matters",content:"# Architecture\nThink long-term"},
-{title:"API Design",desc:"Mobile-first",content:"# API\nIdempotent + retry safe"},
-{title:"Performance",desc:"System-level",content:"# Performance\nReduce work"},
-{title:"State",desc:"Control flow",content:"# State\nSingle source"},
-{title:"Flow",desc:"UX system",content:"# Flow\nUser journey"},
-{title:"Cache",desc:"Speed layer",content:"# Cache\nFallback always"},
-{title:"Sync",desc:"Hard problem",content:"# Sync\nConflict resolution"},
-{title:"Security",desc:"Trust nothing",content:"# Security\nValidate"},
-{title:"Scaling",desc:"Future ready",content:"# Scale\nDesign early"},
-{title:"Logs",desc:"Observability",content:"# Logs\nTrack everything"},
-{title:"Battery",desc:"Mobile constraint",content:"# Battery\nOptimize tasks"},
-{title:"Network",desc:"Unstable reality",content:"# Network\nTimeout + retry"},
-{title:"Release",desc:"Stability",content:"# Release\nFeature flags"}
-];
+function toggleMenu(){
 
-/* 💻 CODE */
-const codeSnippets = [
-{title:"Swift Async",desc:"Networking",code:`let (data, _) = try await URLSession.shared.data(from: url)`},
-{title:"Swift Retry",code:`func retry(times:Int){ if times>0 { retry(times:times-1) } }`},
-{title:"Kotlin Coroutine",code:`val data = withContext(Dispatchers.IO){ api.get() }`},
-{title:"Kotlin Retry",code:`repeat(3){ try{ call() } catch{} }`},
-{title:"Flow State",code:`val state = MutableStateFlow<Data?>(null)`},
-{title:"Cache Fallback",code:`return apiData ?: cacheData`},
-{title:"Queue",code:`queue.push(req)`},
-{title:"Backoff",code:`delay = base * 2^attempt`}
-];
+  document
+  .getElementById("mobileMenu")
+  .classList
+  .toggle("active");
 
-/* RENDER */
-const sharingEl=document.getElementById("sharing");
-const codeEl=document.getElementById("codeSnippets");
-const viewer=document.getElementById("viewer");
-
-function render(){
-  sharing.forEach(i=>sharingEl.innerHTML += card(i,"post"));
-  codeSnippets.forEach(i=>codeEl.innerHTML += card(i,"code"));
 }
-
-function card(item,type){
-  return `<div class="card" onclick='openItem(${JSON.stringify(item)},"${type}")'>
-    <h3>${item.title}</h3>
-    <p>${item.desc || ""}</p>
-  </div>`;
-}
-
-function openItem(item,type){
-  viewer.classList.add("active");
-  viewer.innerHTML = type==="code"
-    ? `<pre>${item.code}</pre>`
-    : marked.parse(item.content);
-}
-
-viewer.onclick=()=>viewer.classList.remove("active");
-
-/* 🧬 ORB PARTICLES */
-const canvas=document.getElementById("particles");
-const ctx=canvas.getContext("2d");
-
-canvas.width=220;
-canvas.height=220;
-
-let particles=[];
-for(let i=0;i<60;i++){
-  particles.push({
-    angle:Math.random()*Math.PI*2,
-    radius:80+Math.random()*30,
-    speed:0.01+Math.random()*0.02
-  });
-}
-
-let mouse={x:110,y:110};
-
-window.addEventListener("mousemove",(e)=>{
-  const rect=canvas.getBoundingClientRect();
-  mouse.x=e.clientX-rect.left;
-  mouse.y=e.clientY-rect.top;
-});
-
-function animate(){
-  ctx.clearRect(0,0,220,220);
-
-  particles.forEach(p=>{
-    p.angle+=p.speed;
-
-    let x=110+Math.cos(p.angle)*p.radius;
-    let y=110+Math.sin(p.angle)*p.radius;
-
-    let dx=mouse.x-x;
-    let dy=mouse.y-y;
-
-    x+=dx*0.02;
-    y+=dy*0.02;
-
-    ctx.fillStyle="rgba(0,255,255,0.8)";
-    ctx.fillRect(x,y,2,2);
-  });
-
-  requestAnimationFrame(animate);
-}
-
-animate();
-render();
 
 </script>
 
